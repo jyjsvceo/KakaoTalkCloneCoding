@@ -1,7 +1,8 @@
 {
   "expo": {
     "name": "KakaoTalkCloneCoding",
-    "slug": "KakaoTalkCloneCoding",
+    "slug": "kakaotalkclonecoding",
+    "owner": "jyjsvceo",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -15,13 +16,15 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.jyjsvceo.KakaoTalkCloneCoding"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.jyjsvceo.KakaoTalkCloneCoding"
     },
     "web": {
       "favicon": "./assets/favicon.png"
