@@ -18,3 +18,7 @@ web-build/
 
 # Secrets
 .env*
+
+# Build
+*.zip
+*.ipa
