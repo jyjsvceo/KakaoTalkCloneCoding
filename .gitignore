@@ -22,3 +22,6 @@ web-build/
 # Build
 *.zip
 *.ipa
+
+# Fastlane
+report.xml
