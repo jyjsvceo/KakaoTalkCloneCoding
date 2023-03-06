@@ -15,3 +15,13 @@ web-build/
 
 # Temporary files created by Metro to check the health of the file watcher
 .metro-health-check*
+
+# Secrets
+.env*
+
+# Build
+*.zip
+*.ipa
+
+# Fastlane
+report.xml

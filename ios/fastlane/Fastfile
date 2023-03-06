@@ -1,0 +1,39 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:ios)
+
+platform :ios do
+  desc "Build development version of build"
+  lane :build do
+    match(
+      type: "adhoc",
+      force_for_new_devices: true,
+      skip_docs: true,
+    )
+    build_app(
+      workspace: "KakaoTalkCloneCoding.xcworkspace", 
+      scheme: "KakaoTalkCloneCoding",
+      configuration: "Debug",
+      verbose: true,
+      export_method: "ad-hoc",
+      )
+    firebase_app_distribution(
+      app: ENV["FIREBASE_APP_ID"],
+      firebase_cli_token: ENV["FIREBASE_CLI_TOKEN"],
+      groups: "ROKAKTCC",
+    )
+  end
+end
