@@ -3,7 +3,7 @@ name: Build iOS App
 on:
   push:
     paths:
-      - "ios/Podfile.lock"
+      - "package.json"
 
 jobs:
   build-ios:
@@ -45,7 +45,14 @@ jobs:
 
       - name: Install pods
         working-directory: ios
-        run: bundle exec pod install
+        run: bundle exec pod update && bundle exec pod install --repo-update
+      
+      - name: Commit Podfile.lock
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: 'ios/Podfile.lock'
+          commit: 'Update Podfile.lock'
+
 
       - name: Save pods cache
         if: ${{ steps.cache-pods.outputs.cache-hit != 'true' }}
