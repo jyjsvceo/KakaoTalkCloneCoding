@@ -1,9 +1,10 @@
 name: Build iOS App
 
 on:
-  push:
-    paths:
-      - "package.json"
+  push
+  # push:
+  #   paths:
+  #     - "package.json"
 
 jobs:
   build-ios:
