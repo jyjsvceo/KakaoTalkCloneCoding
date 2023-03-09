@@ -50,13 +50,6 @@ jobs:
       - name: Install pods
         working-directory: ios
         run: bundle exec pod update && bundle exec pod install --repo-update
-      
-      - name: Commit Podfile.lock
-        uses: EndBug/add-and-commit@v9
-        with:
-          new_branch: action/update-podfile-lock
-          commit: 'Update Podfile.lock'
-
 
       - name: Save pods cache
         if: ${{ steps.cache-pods.outputs.cache-hit != 'true' }}
@@ -64,6 +57,12 @@ jobs:
         with:
           path: 'ios/Pods'
           key: ${{ runner.os }}-pods-${{ hashFiles('**/ios/Podfile.lock') }}
+      
+      - name: Commit Podfile.lock
+        uses: EndBug/add-and-commit@v9
+        with:
+          new_branch: action/update-podfile-lock
+          message: 'Update Podfile.lock'
 
       - name: Prebuild with expo
         run: yarn expo prebuild --no-install
