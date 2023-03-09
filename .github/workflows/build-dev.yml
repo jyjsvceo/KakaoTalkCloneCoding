@@ -1,0 +1,67 @@
+name: Build iOS App
+
+on:
+  push:
+    paths:
+      - "ios/Podfile.lock"
+
+jobs:
+  build-ios:
+    env:
+      BUNDLE_GEMFILE: ${{ github.workspace }}/ios/Gemfile
+      MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+      MATCH_KEYCHAIN_PASSWORD: ${{ secrets.MATCH_KEYCHAIN_PASSWORD }}
+      FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
+      FIREBASE_CLI_TOKEN: ${{ secrets.FIREBASE_CLI_TOKEN }}
+    runs-on: macos-12
+    steps:
+      - name: Checkout git repo
+        uses: actions/checkout@v3
+
+      - name: Setup yarn
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install --prefer-offline
+
+      - name: Setup ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '2.7'
+          bundler-cache: true
+
+      - name: Restore pods cache
+        id: cache-pods
+        uses: actions/cache/restore@v3
+        with:
+          path: 'ios/Pods'
+          key: ${{ runner.os }}-pods-${{ hashFiles('**/ios/Podfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pods-
+            ${{ runner.os }}-
+
+      - name: Install pods
+        working-directory: ios
+        run: bundle exec pod install
+
+      - name: Save pods cache
+        if: ${{ steps.cache-pods.outputs.cache-hit != 'true' }}
+        uses: actions/cache/save@v3
+        with:
+          path: 'ios/Pods'
+          key: ${{ runner.os }}-pods-${{ hashFiles('**/ios/Podfile.lock') }}
+
+      - name: Prebuild with expo
+        run: yarn expo prebuild --no-install
+
+      - name: Setup ssh
+        uses: webfactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Run fastlane
+        working-directory: ios
+        run: 'bundle exec fastlane build'
