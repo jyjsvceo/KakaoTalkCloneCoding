@@ -63,6 +63,7 @@ jobs:
         with:
           new_branch: action/update-podfile-lock
           message: 'Update Podfile.lock'
+          push: origin action/update-podfile-lock --set-upstream --force
 
       - name: Prebuild with expo
         run: yarn expo prebuild --no-install
