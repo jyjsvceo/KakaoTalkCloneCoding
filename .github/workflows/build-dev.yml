@@ -18,6 +18,9 @@ jobs:
     steps:
       - name: Checkout git repo
         uses: actions/checkout@v3
+        with:
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          ref: ${{ github.event.pull_request.head.ref }}
 
       - name: Setup yarn
         uses: actions/setup-node@v3
@@ -51,7 +54,7 @@ jobs:
       - name: Commit Podfile.lock
         uses: EndBug/add-and-commit@v9
         with:
-          add: 'ios/Podfile.lock'
+          new_branch: action/update-podfile-lock
           commit: 'Update Podfile.lock'
 
 
