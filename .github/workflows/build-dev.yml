@@ -42,7 +42,7 @@ jobs:
         uses: actions/cache/restore@v3
         with:
           path: 'ios/Pods'
-          key: ${{ runner.os }}-pods-${{ hashFiles('**/ios/Podfile.lock') }}
+          key: ${{ runner.os }}-pods-${{ hashFiles('yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-pods-
             ${{ runner.os }}-
@@ -56,14 +56,7 @@ jobs:
         uses: actions/cache/save@v3
         with:
           path: 'ios/Pods'
-          key: ${{ runner.os }}-pods-${{ hashFiles('**/ios/Podfile.lock') }}
-      
-      - name: Commit Podfile.lock
-        uses: EndBug/add-and-commit@v9
-        with:
-          new_branch: action/update-podfile-lock
-          message: 'Update Podfile.lock'
-          push: origin action/update-podfile-lock --set-upstream --force
+          key: ${{ runner.os }}-pods-${{ hashFiles('yarn.lock') }}
 
       - name: Prebuild with expo
         run: yarn expo prebuild --no-install
