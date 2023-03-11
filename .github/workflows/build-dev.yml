@@ -15,6 +15,7 @@ jobs:
       FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
       FIREBASE_CLI_TOKEN: ${{ secrets.FIREBASE_CLI_TOKEN }}
       FASTLANE_PASSWORD: ${{ secrets.FASTLANE_PASSWORD }}
+      FASTLANE_SESSION: ${{ secrets.FASTLANE_SESSION }}
     runs-on: macos-12
     steps:
       - name: Checkout git repo
